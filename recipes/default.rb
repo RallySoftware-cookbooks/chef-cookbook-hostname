@@ -80,11 +80,13 @@ if fqdn
     end
     execute "hostname #{hostname}" do
       only_if { has_new_hostname }
+
       notifies :reload, 'ohai[reload_hostname]', :immediately
     end
     service 'network' do
       action :restart
       only_if { has_new_hostname }
+      notifies :reload, 'ohai[reload_hostname]', :immediately
     end
 
   else
@@ -96,6 +98,7 @@ if fqdn
 
     execute "hostname #{hostname}" do
       only_if { has_new_hostname }
+
       notifies :reload, 'ohai[reload_hostname]', :immediately
     end
   end
